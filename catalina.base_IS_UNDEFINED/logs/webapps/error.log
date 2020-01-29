@@ -1,0 +1,11 @@
+2020-01-28 14:57:02.827[main] ERROR com.jiangbin.entity.util.ImageUtil - javax.imageio.IIOException: Can't read input file!
+2020-01-28 15:13:32.327[main] ERROR com.jiangbin.entity.util.ImageUtil - javax.imageio.IIOException: Can't read input file!
+2020-01-28 15:14:05.907[main] ERROR com.jiangbin.entity.util.ImageUtil - javax.imageio.IIOException: Can't read input file!
+2020-01-28 15:20:04.026[main] ERROR com.jiangbin.entity.util.ImageUtil - javax.imageio.IIOException: Can't read input file!
+2020-01-28 15:25:11.647[main] ERROR com.jiangbin.entity.util.ImageUtil - javax.imageio.IIOException: Can't read input file!
+2020-01-28 15:33:11.258[main] ERROR com.jiangbin.entity.util.ImageUtil - javax.imageio.IIOException: Can't read input file!
+2020-01-28 15:59:56.274[main] ERROR com.jiangbin.entity.util.ImageUtil - javax.imageio.IIOException: Can't read input file!
+2020-01-28 16:03:34.283[main] ERROR com.jiangbin.util.ImageUtil - javax.imageio.IIOException: Can't read input file!
+2020-01-28 16:05:44.535[main] ERROR com.jiangbin.util.ImageUtil - javax.imageio.IIOException: Can't read input file!
+2020-01-28 16:07:12.906[main] ERROR com.jiangbin.util.ImageUtil - javax.imageio.IIOException: Can't read input file!
+2020-01-28 16:14:32.524[main] ERROR com.jiangbin.util.ImageUtil - javax.imageio.IIOException: Can't read input file!

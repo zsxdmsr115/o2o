@@ -1,0 +1,26 @@
+package com.jiangbin.util;
+
+import org.junit.Test;
+
+public class PathUtil {
+	private static String seperator = System.getProperty("file.separator");
+	public static void main(String[] args) {
+		getImgBasePath();
+	}
+	@Test
+	public static String getImgBasePath(){
+		String os=System.getProperty("os.name");
+		String basePath="";
+		if(os.toLowerCase().startsWith("win")){
+			basePath="D:/projectdev/image";
+		}else{
+			basePath="/home/jiangbin/image";
+		}
+		basePath=basePath.replace("/", seperator);
+		return basePath;
+	}
+	public static String getShopImagePath(long shopId){
+		String imagePath="/upload/item/shop/"+shopId+"/";
+		return imagePath.replace("/", seperator);
+	}
+}
