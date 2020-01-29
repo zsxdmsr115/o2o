@@ -18,11 +18,35 @@ import com.jiangbin.entity.PersonInfo;
 import com.jiangbin.entity.Shop;
 import com.jiangbin.entity.ShopCategory;
 import com.jiangbin.enume.ShopStateEnum;
+import com.jiangbin.exception.ShopOperationException;
+
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 public class ShopServiceTest extends BaseTest{
 
 	@Autowired
 	private ShopService shopService;
+	@Test
+	public void testgetShopList(){
+		Shop shop = new Shop();
+		ShopCategory shopCategory = new ShopCategory();
+		shopCategory.setShopCategoryId(1L);
+		ShopExecution shopExecution = shopService.getShopList(shop, 1, 2);
+		System.out.println("店铺列表书"+shopExecution.getShopList().size());
+		System.out.println("店铺列表书"+shopExecution.getCount());
+
+	}
+	@Test
+	@Ignore
+	public void testModifyShop() throws ShopOperationException,FileNotFoundException{
+		Shop shop =new Shop();
+		shop.setShopId(1L);
+		shop.setShopName("修改后的店铺名称");
+		File shopImg = new File("D:/projectdev/image/upload/item/shop/21/2020012823232117413.jpg");
+		InputStream is = new FileInputStream(shopImg);
+		ShopExecution shopExecution = shopService.modifyShop(shop, is, "2020012823232117413.jpg");
+		System.out.println("新的图片"+shopExecution.getShop().getShopImg());
+	}
 	@Test
 	public void testAddShop() throws FileNotFoundException{
 

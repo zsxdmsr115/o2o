@@ -2,31 +2,49 @@
  * 
  */
 $(function(){
+	var shopId=getQueryString("shopId");
+	var isEdit = shopId?true:false;
+	
 	var initurl="/o2o/shopadmin/getshopinitinfo";
 	var registerShopurl="/o2o/shopadmin/registershop";
+	var shopInfoUrl="/o2o/shopadmin/getshopbyid?shopId="+shopId;
+	var editShopUrl="/o2o/shopadmin/modifyshop";
+	console.log(shopId);
+	if(!isEdit){
+		getShopInitInfo();
+	}else{
+		getShopInitInfo(shopId);
+	}
 	
-	getShopInitInfo();
-	function getShopInitInfo(){
-		$.getJSON(initurl,function(data){
+	function getShopInitInfo(shopId){
+		$.getJSON(shopInfoUrl,function(data){
 			if(data.success){
-				var tempHtml="";
+				var shop=data.shop;
+				$('#shop-name').val(shop.shopName);
+				$('#shop-addr').val(shop.shopAddr);
+				$('#shop-phone').val(shop.phone);
+				$('#shop-desc').val(shop.shopDesc);
+				var shopCategory="<option data-id='"
+					+shop.shopCategory.shopCategoryId+"'selected>"
+					+shop.shopCategory.shopCategoryName+"</option>";
 				var tempAreaHtml="";
-				data.shopCategoryList.map(function(item,index){
-					tempHtml+="<option data-id="+item.shopCategoryId+">"
-					+item.shopCategoryName+"</option>";
-				});
 				data.areaList.map(function(item,index){
-					tempAreaHtml+="<option data-id="+item.areaId+">"
-					+item.areaName+"</option>";
+					tempAreaHtml+="<option data-id='"+item.areaId+"'>"
+					+item.areaName+"</option>"
 				});
-				$("#shop-category").html(tempHtml);
-				$("#area").html(tempAreaHtml);
+				$('#shop-category').html(shopCategory);
+				$('#shop-category').attr("disabled",'disabled');
+				$('#area').html(tempAreaHtml);
+				$("#area option[data-id='"+shop.area.areaId+"']").attr('selected',"selected");
 			}
 		});
 		
 	}
 	$("#submit").click(function(){
 		var shop={};
+		if(isEdit){
+			shop.shopId=shopId;
+		}
 		shop.shopName=$("#shop-name").val();
 		shop.shopAddr=$("#shop-addr").val();
 		shop.phone=$("#shop-phone").val();
@@ -52,7 +70,7 @@ $(function(){
 		}
 		formData.append('verifyCodeActual',verifyCodeActual);
 		$.ajax({
-			url :registerShopurl,
+			url :(isEdit?editShopUrl: registerShopurl),
 			type:'POST',
 			data:formData,
 			contentType:false,

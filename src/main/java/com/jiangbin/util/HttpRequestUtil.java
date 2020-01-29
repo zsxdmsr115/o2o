@@ -12,6 +12,7 @@ public class HttpRequestUtil {
 	}
 	public static long getLong(HttpServletRequest request,String key){
 		try {
+			
 			return Long.valueOf(request.getParameter(key));
 		} catch (Exception e) {
 			return -1;

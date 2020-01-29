@@ -20,7 +20,7 @@ public class Shop {
 	private Area area;
 	private PersonInfo owner;
 	private ShopCategory shopCategory;
-
+						
 	public Long getShopId() {
 		return shopId;
 	}
