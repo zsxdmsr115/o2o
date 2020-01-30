@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.jiangbin.dao.ShopDao;
+import com.jiangbin.dto.ImageHolder;
 import com.jiangbin.dto.ShopExecution;
 import com.jiangbin.entity.Shop;
 import com.jiangbin.enume.ShopStateEnum;
@@ -22,7 +23,7 @@ public class ShopServiceImpl implements ShopService {
 	@Autowired
 	private ShopDao shopDao;
 	@Transactional
-	public ShopExecution addShop(Shop shop, InputStream shopImgInputstrem,String fileName) {
+	public ShopExecution addShop(Shop shop, ImageHolder thumbnail) {
 		//空值判断
 		if(shop==null){
 			return new ShopExecution(ShopStateEnum.NULL_SHOP);
@@ -37,10 +38,10 @@ public class ShopServiceImpl implements ShopService {
 			if(effectedNum<=0){
 				throw new ShopOperationException("店铺创建失败");
 			}else{
-				if(shopImgInputstrem!=null){
+				if(thumbnail.getImage()!=null){
 					//存储图片
 					try {
-						addShopImg(shop,shopImgInputstrem,fileName);
+						addShopImg(shop,thumbnail);
 					} catch (Exception e) {
 						throw new ShopOperationException("addShopImg error:"+e.getMessage());
 					}
@@ -57,24 +58,24 @@ public class ShopServiceImpl implements ShopService {
 		}
 		return  new ShopExecution(ShopStateEnum.CHECK,shop);
 	}
-	private void addShopImg(Shop shop, InputStream shopImgInputStream,String fileName) {
+	private void addShopImg(Shop shop, ImageHolder thumail) {
 		//获取shop图片目录的相对子路径
 		String desst = PathUtil.getShopImagePath(shop.getShopId());
-		String shopImgAddr = ImageUtil.generateTumbnail(shopImgInputStream,fileName, desst);
+		String shopImgAddr = ImageUtil.generateTumbnail(thumail, desst);
 		shop.setShopImg(shopImgAddr);
 	}
-	public ShopExecution modifyShop(Shop shop, InputStream shopImgInputStream, String fileName) {
+	public ShopExecution modifyShop(Shop shop, ImageHolder thumbnail) {
 		if(shop==null || shop.getShopId()==null){
 			return new ShopExecution(ShopStateEnum.NULL_SHOP);
 		}else{
 			try {
 				//1:判断是否需要处理图片
-				if(shopImgInputStream!=null && fileName!=null && !"".equals(fileName)){
+				if(thumbnail.getImage()!=null && thumbnail.getImageName()!=null && !"".equals(thumbnail.getImageName())){
 					Shop tempShop = shopDao.queryByShopId(shop.getShopId());
 					if(tempShop.getShopImg()!=null){
 						ImageUtil.deletFileOrPath(tempShop.getShopImg());//删除原来的图片
 					}
-					addShopImg(shop, shopImgInputStream, fileName);//添加新的图片
+					addShopImg(shop, thumbnail);//添加新的图片
 				}
 				//2:更新店铺信息
 				shop.setLastEditTime(new Date());
